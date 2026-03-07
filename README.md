@@ -135,6 +135,12 @@ Mem0 Cloud with two namespaces: personal (cross-device agent memory) and shared 
 
 ---
 
+<picture>
+  <img src="assets/snake-dark.svg" alt="Snake contribution graph" width="100%"/>
+</picture>
+
+---
+
 <details>
 <summary><b>GitHub Stats</b></summary>
 <br/>
