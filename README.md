@@ -2,25 +2,26 @@
 <img src="assets/header.svg" width="100%" alt="Zach Abraham — AI Infrastructure, Multi-Agent Systems, Automation"/>
 
 <p align="center">
-  <a href="https://zach-abraham.github.io/clawd-hq"><img src="https://img.shields.io/badge/Portfolio-zach--abraham.github.io-58a6ff?style=flat-square&logo=github-pages&logoColor=white"/></a>
-  <a href="https://linkedin.com/in/zachabraham1"><img src="https://img.shields.io/badge/LinkedIn-zachabraham1-0A66C2?style=flat-square&logo=linkedin&logoColor=white"/></a>
+  <a href="https://linkedin.com/in/zacharyrabraham"><img src="https://img.shields.io/badge/LinkedIn-zacharyrabraham-0A66C2?style=flat-square&logo=linkedin&logoColor=white"/></a>
   <a href="mailto:zrabraham@gmail.com"><img src="https://img.shields.io/badge/Email-zrabraham-EA4335?style=flat-square&logo=gmail&logoColor=white"/></a>
+  <img src="https://img.shields.io/badge/Houston,%20TX-open%20to%20remote-lightgrey?style=flat-square"/>
 </p>
 
 ---
 
-<!-- Bento grid: 2-column layout -->
 <table>
 <tr>
 <td width="55%" valign="top">
 
 ### What I Build
 
-I build **multi-agent AI systems** that run themselves. Eight specialized agents coordinate through a shared event bus and persistent memory layer — handling everything from prediction markets to job applications to infrastructure monitoring.
+I build **multi-agent AI systems that run themselves** — fleets of specialized agents that coordinate through a shared event bus and a persistent memory layer, with multi-provider LLM routing, self-healing automation, and cross-agent (A2A) communication.
 
-**The system is live.** Right now, on a Mac Mini in Houston, agents are trading Kalshi contracts, applying to jobs, monitoring five machines, and synthesizing cross-domain insights every six hours.
+**It's real infrastructure, not slideware.** Most of it runs 24/7 on a home server cluster: LLM routing with automatic failover, scheduled agents, health monitoring, and an evaluator loop that catches failures and repairs or escalates them without a human in the loop.
 
-> *Automate the boring. Synthesize the complex. Sleep through the night.*
+By day I'm an **IT systems & endpoint engineer** (Intune/MECM, M365, PowerShell/Python automation, multi-site server migrations). The systems below are where I push that further.
+
+> *Automate the boring. Make it self-healing. Sleep through the night.*
 
 </td>
 <td width="45%" valign="top">
@@ -29,15 +30,15 @@ I build **multi-agent AI systems** that run themselves. Eight specialized agents
 
 ```
 ┌─────────────────────────────┐
-│ 🔴 HAL Orchestrator         │
+│ HAL Orchestrator            │
 ├─────────────────────────────┤
-│ 8 autonomous agents         │
-│ 5-machine Tailscale mesh    │
-│ SQLite event bus (pub/sub)  │
-│ Mem0 persistent memory      │
-│ 6-hour synthesis heartbeat  │
-│ Telegram alert pipeline     │
-│ A2A cross-machine protocol  │
+│ Fleet of scoped agents      │
+│ Event bus (pub/sub, WAL)    │
+│ Persistent memory layer     │
+│ 6-provider LLM failover     │
+│ Self-healing scheduler      │
+│ A2A cross-agent protocol    │
+│ Telegram / CLI interface    │
 └─────────────────────────────┘
 ```
 
@@ -47,31 +48,11 @@ I build **multi-agent AI systems** that run themselves. Eight specialized agents
 
 ---
 
-### Clawd HQ — Multi-Agent Orchestration Platform
+### Selected Work
 
-<table>
-<tr>
-<td>
+[![clawd-multi-agent](https://img.shields.io/badge/clawd--multi--agent-181717?style=flat-square&logo=github)](https://github.com/zach-abraham/clawd-multi-agent)
 
-[![Architecture](https://img.shields.io/badge/Architecture_Docs-181717?style=flat-square&logo=github)](https://github.com/zach-abraham/clawd-hq)
-[![Live Site](https://img.shields.io/badge/Portfolio-58a6ff?style=flat-square&logo=github-pages&logoColor=white)](https://zach-abraham.github.io/clawd-hq)
-
-8 AI agents on a Mac Mini. Each has its own domain, memory scope, Telegram topic, and schedule. They coordinate through a SQLite event bus and Mem0-powered memory layer.
-
-| Agent | Domain | Schedule |
-|-------|--------|----------|
-| **HAL** | Orchestration | Always-on |
-| **Trader** | Prediction Markets | Every 4h |
-| **Recruiter** | Job Automation | Every 4h |
-| **Banker** | Personal Finance | Daily |
-| **Professor** | Education | On-demand |
-| **CEO** | Strategy | On-demand |
-| **Sentinel** | Infrastructure | Hourly |
-| **Trainer** | Fitness | On-demand |
-
-</td>
-</tr>
-</table>
+A multi-agent system with domain-scoped agents, event-driven coordination, and a self-improving infrastructure layer. More flagship repos (multi-provider LLM orchestrator, A2A protocol server, persistent-memory stack) are being extracted from the live systems and published — clean, runnable, and secret-free.
 
 <details>
 <summary><b>Architecture Deep Dive</b></summary>
@@ -83,30 +64,30 @@ I build **multi-agent AI systems** that run themselves. Eight specialized agents
 
 **Cross-Agent Event Bus**
 
-SQLite-backed pub/sub with WAL mode. Event categories: `decision`, `alert`, `state_change`, `discovery`. Severity escalation routes critical events to Telegram. HAL consumes all events during synthesis.
+SQLite-backed pub/sub with WAL mode. Event categories: `decision`, `alert`, `state_change`, `discovery`. Severity escalation routes critical events to a notification pipeline. The orchestrator consumes all events during synthesis.
 
 </td>
 <td width="50%">
 
-**HAL Synthesis Heartbeat**
+**Synthesis Heartbeat**
 
-Every 6 hours, HAL queries all agent memories and events, passes them through Gemini Flash for cross-domain pattern detection, then posts insights to Telegram and stores them in persistent memory.
+On a schedule, the orchestrator queries every agent's memory and recent events, runs them through an LLM for cross-domain pattern detection, then surfaces insights and stores them in persistent memory.
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-**Dual-Namespace Memory**
+**Multi-Provider LLM Routing**
 
-Mem0 Cloud with two namespaces: personal (cross-device agent memory) and shared (multi-user collaboration). DLP sanitization layer strips secrets before storage.
+Automatic failover and cost-aware fallback across six providers (Cerebras → Groq → NVIDIA NIM → SambaNova → local Ollama → Gemini), so a single rate-limit or outage never takes the system down.
 
 </td>
 <td width="50%">
 
-**Infrastructure Mesh**
+**Persistent Memory + A2A**
 
-5-machine Tailscale mesh. LaunchAgent-based scheduling. Docker services (Uptime Kuma, Langfuse, Beszel, n8n). A2A protocol for cross-machine agent communication.
+A durable memory stack (PostgreSQL + Redis + Neo4j knowledge graph) gives agents long-term recall instead of stateless prompts. An Agent-to-Agent protocol server lets independent agents discover and delegate across machines.
 
 </td>
 </tr>
@@ -119,18 +100,22 @@ Mem0 Cloud with two namespaces: personal (cross-device agent memory) and shared 
 ### Tech Stack
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=python,bash,docker,linux,sqlite,git,github,githubactions&theme=dark&perline=8"/>
+  <img src="https://skillicons.dev/icons?i=python,bash,docker,linux,postgres,redis,sqlite,git,github,githubactions&theme=dark&perline=10"/>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Claude-191919?style=flat-square&logo=anthropic&logoColor=white"/>
   <img src="https://img.shields.io/badge/Gemini-4285F4?style=flat-square&logo=google&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Mem0-7C3AED?style=flat-square"/>
-  <img src="https://img.shields.io/badge/Tailscale-000000?style=flat-square&logo=tailscale&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Telegram_Bot-26A5E4?style=flat-square&logo=telegram&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Kalshi-000000?style=flat-square"/>
-  <img src="https://img.shields.io/badge/Playwright-2EAD33?style=flat-square&logo=playwright&logoColor=white"/>
-  <img src="https://img.shields.io/badge/LaunchAgents-000000?style=flat-square&logo=apple&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Ollama-000000?style=flat-square&logo=ollama&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MCP-7C3AED?style=flat-square"/>
+  <img src="https://img.shields.io/badge/A2A_Protocol-1F6FEB?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Neo4j-008CC1?style=flat-square&logo=neo4j&logoColor=white"/>
+  <img src="https://img.shields.io/badge/PowerShell-5391FE?style=flat-square&logo=powershell&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Intune%20%2F%20M365-0078D4?style=flat-square&logo=microsoft&logoColor=white"/>
+</p>
+
+<p align="center">
+  <sub>Open to <b>Systems / Infrastructure / Endpoint / Automation</b> engineering roles where IT ops meets real software.</sub>
 </p>
 
 ---
@@ -159,5 +144,5 @@ Mem0 Cloud with two namespaces: personal (cross-device agent memory) and shared 
 ---
 
 <p align="center">
-  <sub>Houston, TX · Built with Claude, Gemini, and way too much caffeine</sub>
+  <sub>Houston, TX · AI infrastructure, multi-agent systems, automation</sub>
 </p>
